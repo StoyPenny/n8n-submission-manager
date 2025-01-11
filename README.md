@@ -52,6 +52,7 @@ npm run dev
 - [ ] Ability to connect with N8N API for automated form generation
 - [ ] Ability to connect with N8N API for form stats
 - [ ] Ability to add widths to form elements to make submissions more intuitive
+- [ ] Ability to bulk edit select fields
 
 ## Contributing
 1. Fork the repository
