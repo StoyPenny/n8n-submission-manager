@@ -1,6 +1,12 @@
 # N8N Submission Manager
 A submission management system built with n8n workflows to handle and process form submissions efficiently.
 
+Form List View:
+![image](https://github.com/user-attachments/assets/2abce52a-e4d8-45be-8b53-75c0c55dc613)
+
+Create new form View:
+![image](https://github.com/user-attachments/assets/cde0d077-1cf4-49fd-8418-853a672ed184)
+
 ## Overview
 N8N Submission Manager streamlines form submission handling through n8n's workflow automation platform. This tool provides an intuitive UI for creating and submitting forms directly to your n8n instance, eliminating the need for the default test form interface. Built for organizations and individuals seeking an efficient, code-free solution for managing form submissions and management at scale.
 
