@@ -88,12 +88,15 @@ body {
   background-color: #444;
   display: flex;
   flex-direction: column;
+  gap: 1rem 0;
 }
 
 .form-field label {
   display: block;
   margin-bottom: 5px;
-  color: #ddd;
+  color: #aaa;
+  font-weight: bold;
+  font-size: 0.81rem;
 }
 
 .form-field input,
@@ -105,6 +108,8 @@ body {
   border-radius: 4px;
   background-color: #555;
   color: #fff;
+  margin-top: 0.36rem;
+  font-size: 1rem;
 }
 
 .form-field select {
@@ -292,6 +297,7 @@ body {
   display: inline-block;
   width: 40px;
   height: 20px;
+  margin-left: 0.36rem;
 }
 
 .toggle-switch input {
