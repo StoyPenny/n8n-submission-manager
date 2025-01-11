@@ -15,6 +15,10 @@ Form List View:
 Create new form View:
 ![image](https://github.com/user-attachments/assets/cde0d077-1cf4-49fd-8418-853a672ed184)
 
+Submit a form:
+![image](https://github.com/user-attachments/assets/5f3df805-04fd-427a-85d2-0010565edb8f)
+
+
 ## Prerequisites
 - n8n installed (version X.X.X or higher)
 - Node.js (version 14 or higher)
@@ -45,7 +49,7 @@ npm run dev
 
 ## Roadmap
 - [ ] Updated and enhanced styles and UX
-- [X] Ability to add default values to fields
+- [X] ~~Ability to add default values to fields~~
 - [ ] Ability to to add restraints and other settings on fields (min, max, step, date range, etc..) 
 - [ ] Ability to trigger standard webhook N8N workflows from the UI (ones that do not require a form submission)
 - [ ] Ability to send authentication with form submissions
@@ -53,6 +57,7 @@ npm run dev
 - [ ] Ability to connect with N8N API for form stats
 - [ ] Ability to add widths to form elements to make submissions more intuitive
 - [ ] Ability to bulk edit select fields
+- [ ] Ability to add descriptions to a form, in order to provide more details about functionality and actions
 
 ## Contributing
 1. Fork the repository
