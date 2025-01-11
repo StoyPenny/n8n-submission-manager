@@ -30,6 +30,7 @@ function FormBuilder({ onFormSave, initialForm = null }) {
             label: `Field ${formFields.length + 1}`,
             placeholder: '',
             required: false,
+            defaultValue: '',
             options: type === 'select' ? ['Option 1', 'Option 2'] : [],
         };
         setFormFields([...formFields, newField]);
@@ -56,6 +57,15 @@ function FormBuilder({ onFormSave, initialForm = null }) {
         setFormFields(updatedFields);
     };
 
+    const handleDefaultValueChange = (fieldId, value) => {
+        const updatedFields = formFields.map((field) => {
+            if (field.id === fieldId) {
+                return { ...field, defaultValue: value };
+            }
+            return field;
+        });
+        setFormFields(updatedFields);
+    };
     const handlePlaceholderChange = (fieldId, value) => {
         const updatedFields = formFields.map((field) => {
             if (field.id === fieldId) {
@@ -202,7 +212,6 @@ function FormBuilder({ onFormSave, initialForm = null }) {
                                                         value={field.label}
                                                         onChange={(e) => handleLabelChange(field.id, e.target.value)}
                                                     />
-                                                    
                                                 </label>
                                                 <label>
                                                     Placeholder:
@@ -210,6 +219,14 @@ function FormBuilder({ onFormSave, initialForm = null }) {
                                                         type="text"
                                                         value={field.placeholder}
                                                         onChange={(e) => handlePlaceholderChange(field.id, e.target.value)}
+                                                    />
+                                                </label>
+                                                <label>
+                                                    Default Value:
+                                                    <input
+                                                        type="text"
+                                                        value={field.defaultValue || ''}
+                                                        onChange={(e) => handleDefaultValueChange(field.id, e.target.value)}
                                                     />
                                                 </label>
                                                 <label>
@@ -316,11 +333,19 @@ function FormList({ forms, onEditForm, onDeleteForm, onFormSubmit }) {
 }
 
 function FormSubmit({ form, onSubmit, onCancel }) {
-    const [formData, setFormData] = useState({});
+    const [formData, setFormData] = useState(() => {
+        const initialData = {};
+        form.fields.forEach(field => {
+            if (!field.name && field.defaultValue) {
+                initialData[field.name] = field.defaultValue;
+            }
+        });
+        return initialData;
+    });
 
     const handleInputChange = (fieldId, value) => {
         setFormData({ ...formData, [fieldId]: value });
-    };
+    };    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -356,23 +381,25 @@ function FormSubmit({ form, onSubmit, onCancel }) {
                             <input
                                 type="text"
                                 placeholder={field.placeholder}
-                                value={formData[field.name] || ''}
-                                onChange={(e) => handleInputChange(field.name, e.target.value)}
+                                value={formData[field.id] ?? field.defaultValue ?? ''}
+                                onChange={(e) => handleInputChange(field.id, e.target.value)}
                                 required={field.required}
+                                name={field.label}
                             />
                         )}
                         {field.type === 'textarea' && (
                             <textarea
                                 placeholder={field.placeholder}
-                                value={formData[field.name] || ''}
-                                onChange={(e) => handleInputChange(field.name, e.target.value)}
+                                value={formData[field.id] ?? field.defaultValue ?? ''}
+                                onChange={(e) => handleInputChange(field.id, e.target.value)}
                                 required={field.required}
+                                name={field.label}
                             />
                         )}
                         {field.type === 'select' && (
                             <select
-                                value={formData[field.name] || ''}
-                                onChange={(e) => handleInputChange(field.name, e.target.value)}
+                                value={formData[field.id] ?? field.defaultValue ?? ''}
+                                onChange={(e) => handleInputChange(field.id, e.target.value)}
                                 required={field.required}
                             >
                                 <option value="" disabled>Select an option</option>
@@ -385,8 +412,8 @@ function FormSubmit({ form, onSubmit, onCancel }) {
                             <input
                                 type="date"
                                 placeholder={field.placeholder}
-                                value={formData[field.name] || ''}
-                                onChange={(e) => handleInputChange(field.name, e.target.value)}
+                                value={formData[field.id] ?? field.defaultValue ?? ''}
+                                onChange={(e) => handleInputChange(field.id, e.target.value)}
                                 required={field.required}
                             />
                         )}
@@ -394,8 +421,8 @@ function FormSubmit({ form, onSubmit, onCancel }) {
                             <input
                                 type="email"
                                 placeholder={field.placeholder}
-                                value={formData[field.name] || ''}
-                                onChange={(e) => handleInputChange(field.name, e.target.value)}
+                                value={formData[field.id] ?? field.defaultValue ?? ''}
+                                onChange={(e) => handleInputChange(field.id, e.target.value)}
                                 required={field.required}
                             />
                         )}
@@ -403,7 +430,7 @@ function FormSubmit({ form, onSubmit, onCancel }) {
                             <input
                                 type="file"
                                 placeholder={field.placeholder}
-                                onChange={(e) => handleInputChange(field.name, e.target.files[0])}
+                                onChange={(e) => handleInputChange(field.id, e.target.files[0])}
                                 required={field.required}
                             />
                         )}
@@ -411,8 +438,8 @@ function FormSubmit({ form, onSubmit, onCancel }) {
                             <input
                                 type="number"
                                 placeholder={field.placeholder}
-                                value={formData[field.name] || ''}
-                                onChange={(e) => handleInputChange(field.name, e.target.value)}
+                                value={formData[field.id] ?? field.defaultValue ?? ''}
+                                onChange={(e) => handleInputChange(field.id, e.target.value)}
                                 required={field.required}
                             />
                         )}
@@ -420,8 +447,8 @@ function FormSubmit({ form, onSubmit, onCancel }) {
                             <input
                                 type="password"
                                 placeholder={field.placeholder}
-                                value={formData[field.name] || ''}
-                                onChange={(e) => handleInputChange(field.name, e.target.value)}
+                                value={formData[field.id] ?? field.defaultValue ?? ''}
+                                onChange={(e) => handleInputChange(field.id, e.target.value)}
                                 required={field.required}
                             />
                         )}
