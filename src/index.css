@@ -29,6 +29,7 @@ body {
   cursor: pointer;
   transition: background 0.3s ease;
   margin-right: 10px;
+  font-weight: bold;
 }
 
 .btn:hover {
@@ -371,4 +372,25 @@ nav {
 }
 .form-controls select {
   width: 100%;
+}
+.select-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  margin: 0 0 1rem 0;
+}
+.option-input {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.option-input .btn {
+  line-height: 1.3rem;
+  margin-top: 0.36rem;
+}
+.label-title {
+  color: #aaa;
+  font-weight: bold;
+  font-size: 0.81rem;
 }

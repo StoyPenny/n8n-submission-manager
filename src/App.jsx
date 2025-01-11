@@ -241,22 +241,27 @@ function FormBuilder({ onFormSave, initialForm = null }) {
                                                         <span className="slider"></span>
                                                     </span>
                                                 </label>
-                                                <button onClick={() => removeField(field.id)} class="btn btn-danger">Remove</button>
+                                                
                                                 {field.type === 'select' && (
                                                     <div>
-                                                        {field.options.map((option, index) => (
-                                                            <div key={index}>
-                                                                <input
-                                                                    type="text"
-                                                                    value={option}
-                                                                    onChange={(e) => handleOptionChange(field.id, index, e.target.value)}
-                                                                />
-                                                                <button onClick={() => removeOption(field.id, index)} class="btn btn-danger">Remove</button>
-                                                            </div>
-                                                        ))}
+                                                        <div className='label-title'>Options:</div>
+                                                        <div className='select-options'>
+                                                            {field.options.map((option, index) => (
+                                                                <div key={index} className='option-input'>
+                                                                    <input
+                                                                        type="text"
+                                                                        value={option}
+                                                                        onChange={(e) => handleOptionChange(field.id, index, e.target.value)}
+                                                                    />
+                                                                    <button onClick={() => removeOption(field.id, index)} class="btn btn-danger">Remove</button>
+                                                                </div>
+                                                            ))}
+                                                        </div>
                                                         <button onClick={() => addOption(field.id)} class="btn btn-success">Add Option</button>
                                                     </div>
                                                 )}
+
+                                                <button onClick={() => removeField(field.id)} class="btn btn-danger">Remove</button>
                                             </div>
                                         )}
                                     </Draggable>
