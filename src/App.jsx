@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import ImportN8nForms from './components/ImportN8nForms';
 
 function FormBuilder({ onFormSave, initialForm = null }) {
   const [formFields, setFormFields] = useState(initialForm ? initialForm.fields : []);
@@ -8,6 +9,7 @@ function FormBuilder({ onFormSave, initialForm = null }) {
   const [formName, setFormName] = useState(initialForm ? initialForm.name : '');
   const [formTags, setFormTags] = useState(initialForm ? initialForm.tags : '');
   const [formCategory, setFormCategory] = useState(initialForm ? initialForm.category : '');
+  const [currentView, setCurrentView] = useState('list'); // Update existing state options
 
   useEffect(() => {
     if (initialForm) {
@@ -179,15 +181,15 @@ function FormBuilder({ onFormSave, initialForm = null }) {
           value={formCategory}
           onChange={(e) => setFormCategory(e.target.value)}
         />
-        <button onClick={() => addField('text')} class="btn">Add Text Field</button>
-        <button onClick={() => addField('textarea')} class="btn">Add Textarea</button>
-        <button onClick={() => addField('select')} class="btn">Add Select</button>
-        <button onClick={() => addField('date')} class="btn">Add Date Field</button>
-        <button onClick={() => addField('email')} class="btn">Add Email Field</button>
-        <button onClick={() => addField('file')} class="btn">Add File Field</button>
-        <button onClick={() => addField('number')} class="btn">Add Number Field</button>
-        <button onClick={() => addField('password')} class="btn">Add Password Field</button>
-        <button onClick={handleSaveForm} class="btn btn-success">Save Form</button>
+        <button onClick={() => addField('text')} className="btn">Add Text Field</button>
+        <button onClick={() => addField('textarea')} className="btn">Add Textarea</button>
+        <button onClick={() => addField('select')} className="btn">Add Select</button>
+        <button onClick={() => addField('date')} className="btn">Add Date Field</button>
+        <button onClick={() => addField('email')} className="btn">Add Email Field</button>
+        <button onClick={() => addField('file')} className="btn">Add File Field</button>
+        <button onClick={() => addField('number')} className="btn">Add Number Field</button>
+        <button onClick={() => addField('password')} className="btn">Add Password Field</button>
+        <button onClick={handleSaveForm} className="btn btn-success">Save Form</button>
       </div>
       <div className="form-preview">
         <DragDropContext onDragEnd={onDragEnd}>
@@ -253,15 +255,15 @@ function FormBuilder({ onFormSave, initialForm = null }) {
                                     value={option}
                                     onChange={(e) => handleOptionChange(field.id, index, e.target.value)}
                                   />
-                                  <button onClick={() => removeOption(field.id, index)} class="btn btn-danger">Remove</button>
+                                  <button onClick={() => removeOption(field.id, index)} className="btn btn-danger">Remove</button>
                                 </div>
                               ))}
                             </div>
-                            <button onClick={() => addOption(field.id)} class="btn btn-success">Add Option</button>
+                            <button onClick={() => addOption(field.id)} className="btn btn-success">Add Option</button>
                           </div>
                         )}
 
-                        <button onClick={() => removeField(field.id)} class="btn btn-danger">Remove</button>
+                        <button onClick={() => removeField(field.id)} className="btn btn-danger">Remove</button>
                       </div>
                     )}
                   </Draggable>
@@ -327,8 +329,8 @@ function FormList({ forms, onEditForm, onDeleteForm, onFormSubmit }) {
           <li key={form.id}>
             <span onClick={() => onFormSubmit(form)}>{form.name}</span>
             <div>
-              <button onClick={() => onEditForm(form)} class="btn">Edit</button>
-              <button onClick={() => onDeleteForm(form.id)} class="btn btn-danger">Delete</button>
+              <button onClick={() => onEditForm(form)} className="btn">Edit</button>
+              <button onClick={() => onDeleteForm(form.id)} className="btn btn-danger">Delete</button>
             </div>
           </li>
         ))}
@@ -459,8 +461,8 @@ function FormSubmit({ form, onSubmit, onCancel }) {
             )}
           </div>
         ))}
-        <button type="submit" class="btn btn-success">Submit</button>
-        <button type="button" onClick={onCancel} class="btn btn-danger">Cancel</button>
+        <button type="submit" className="btn btn-success">Submit</button>
+        <button type="button" onClick={onCancel} className="btn btn-danger">Cancel</button>
       </form>
     </div>
   );
@@ -530,13 +532,14 @@ function App() {
 
   return (
     <div>
-      <nav class="main-nav">
+      <nav className="main-nav">
         <div>
-          <button class="btn btn-nav" onClick={() => setCurrentView('list')}>View Forms</button>
-          <button class="btn btn-nav" onClick={() => {
+          <button className="btn btn-nav" onClick={() => setCurrentView('list')}>View Forms</button>
+          <button className="btn btn-nav" onClick={() => {
             setCurrentView('builder');
             setEditingForm(null);
           }}>Create New Form</button>
+          <button className="btn btn-nav" onClick={() => setCurrentView('import')}>Import from n8n</button>
         </div>
       </nav>
       <div className="form-container">
@@ -567,6 +570,14 @@ function App() {
               <button onClick={cancelDeleteForm}>No</button>
             </div>
           </div>
+        )}
+        {currentView === 'import' && (
+          <ImportN8nForms 
+            onFormsImport={(importedForms) => {
+              setForms(prev => [...prev, ...importedForms]);
+              setCurrentView('list');
+            }} 
+          />
         )}
       </div>
     </div>
